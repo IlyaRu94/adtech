@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  php:
+    build: ./php
+    container_name: sf-adtech-php
+    environment:
+      - MYSQL_HOST=mysql
+      - MYSQL_DATABASE=adtech
+      - MYSQL_USER=user1
+      - MYSQL_PASSWORD=s123
+      - MYSQL_PORT=3306
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./src:/var/www
+    depends_on:
+      - mysql  
+    networks:
+      - sf-adtech-network
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: sf-adtech-nginx
+    restart: unless-stopped
+    ports:
+      - 80:80
+    volumes:
+      - ./src:/var/www
+      - ./nginx:/etc/nginx/conf.d 
+    depends_on:
+      - php 
+    networks:
+      - sf-adtech-network  
+
+  mysql:
+    image: mysql:8.0.29
+    container_name: sf-adtech-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: s123123
+      MYSQL_DATABASE: adtech
+      MYSQL_USER: user1
+      MYSQL_PASSWORD: s123
+      MYSQL_ROOT_HOST: "%"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    networks:
+      - sf-adtech-network
+
+  phpmyadmin:
+    image: phpmyadmin:latest 
+    container_name: sf-adtech-phpmyadmin
+    restart: unless-stopped
+    environment:
+      - PMA_ARBITRARY=1
+      - UPLOAD_LIMIT=1024M
+      - MEMORY_LIMIT=1024M
+      - MAX_EXECUTION_TIME=300  
+    ports:
+      - 8000:80
+    depends_on:
+      - mysql 
+    networks:
+      - sf-adtech-network        
+
+volumes:
+  mysql_php:
+
+networks:
+  sf-adtech-network:
+    driver: bridge
