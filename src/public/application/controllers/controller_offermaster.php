@@ -46,11 +46,11 @@ class Controller_Offermaster extends Controller {
 					$createoffer= (new Model_Offermaster($param,$_SESSION['userid']))->setOffer();//добавили
 					$data->msg=$createoffer->msg;
 					$data->stat='access_granted';
-					$data->masterurl='http://'.$_SERVER['HTTP_HOST'].':'.$_SERVER['SERVER_PORT'].'/redirect/url/'.$createoffer->url;
+					$data->masterurl='http://'.$_SERVER['HTTP_HOST'].'/redirect/url/'.$createoffer->url;
 				}else{
 					$data->msg=$offerdb->msg;
 					$data->stat='access_granted';
-					$data->masterurl='http://'.$_SERVER['HTTP_HOST'].':'.$_SERVER['SERVER_PORT'].'/redirect/url/'.$offerdb->offertouser->masterurl;
+					$data->masterurl='http://'.$_SERVER['HTTP_HOST'].'/redirect/url/'.$offerdb->offertouser->masterurl;
 					$offer_click_price=(new Model_Offerprice ($param,0,$_SESSION['userid'],$datetime))->getOfferbalance();
 					if($offer_click_price->status=1){
 						$data->offer_balance=$offer_click_price->balance;

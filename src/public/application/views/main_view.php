@@ -1,4 +1,4 @@
-<?$print='<section class="section">
+<?php $print='<section class="section">
     <h1 class="section__h1">SF-adtech</h1> 
     <div class="section__info">
         <div class="section-info__item">
@@ -23,17 +23,16 @@
     </div>
 </section>';
 
-if (empty($_SESSION['json'])&&empty($_POST['json'])){
+if (empty($jsonsess)&&empty($_POST['json'])){
 	echo $print;
 }else{
 	$out=(object) array();
 	$out->block=array('.section');
 	$out->html=array($print);
-    if(empty($_SESSION['auth'])){//Обновим меню, вдруг у нас выход был или 404
+    if(empty($_SESSION['auth'])){//Обновим меню, вдруг у нас выход был
         $out->block[]='.nav';
         $out->html[]=$menu;
     }
     echo json_encode($out);
-    $_SESSION['json']='0';
-    exit;
+    include 'application/views/clearsess.php';
 }

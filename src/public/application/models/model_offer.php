@@ -36,12 +36,18 @@ class Model_Offer extends Model{
 		$offeradd->price = $this->price;
 		$offeradd->url = $this->url;
 		$offeradd->active = $this->active;
-		$offeradd->userid = $this->userid;
 		$offeradd->date=time();
-		R::store($offeradd); // сохраняем объект $offer в таблице
-		$stat->status= '1';
-		$stat->msg='Выполнено';
-		return $stat;
+		if(R::findOne('users', 'id='.$this->userid)){
+			$offeradd->userid = $this->userid;
+			R::store($offeradd); // сохраняем объект $offer в таблице
+			$stat->status= '1';
+			$stat->msg='Выполнено';
+			return $stat;
+		}else{
+			$stat->status= '0';
+			$stat->msg='Пользователь не найден';
+			return $stat;
+		}
 	}
 
 	public function getOffer()	{

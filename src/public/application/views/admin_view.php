@@ -50,18 +50,17 @@ $print='<section class="section">
 $print.='</section>';
 
 
-if (empty($_SESSION['json'])&&empty($_POST['json'])){
+if (empty($jsonsess)&&empty($_POST['json'])){
 	echo $print;
 }else{
 	$out=(object) array();
 	$out->block=array('.section');
 	$out->html=array($print);
-    if($_SESSION['menu']=='update'){//посмотрим referer, если он со страницы login - обновим меню
+    if($_SESSION['menu']=='update'){
         $out->block[]='.nav';
         $out->html[]=$menu;
         $_SESSION['menu']='';
     }
     echo json_encode($out);
-    $_SESSION['json']='0';
-    exit;
+    include 'application/views/clearsess.php';
 }

@@ -58,9 +58,9 @@ class Controller_Admin extends Controller {
 	private function constructRequest($offertdb,$nameRole,$parturl,$parurlname,$page,$itemlimit,$formaction,$balance){
 		$data = (object) array();
 		$data->login=$_SESSION['user'];
-		$data->table=$offertdb->item;
+		$data->table=(!empty($offertdb->item)?$offertdb->item:'');
 		$data->balance=$balance;
-		$data->count=$offertdb->count;
+		$data->count=(!empty($offertdb->count)?$offertdb->count:'');
 		$data->nameRole=$nameRole;
 		$data->parturl=$parturl;
 		$data->parturlname=$parurlname;

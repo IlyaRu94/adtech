@@ -66,7 +66,7 @@ class Controller_Offer extends Controller {
 	}
 
 private function offerToDB($data){
-	$offerid=(!empty($data)) ? $data->offerid : '';
+	$offerid=((!empty($data->offerid)) ? $data->offerid : '');
 	if(isset($_POST['tkn']) && $_POST['tkn']==$_SESSION['tkn']){
 		if(!empty($_POST['offername']) && !empty($_POST['offertheme']) && !empty($_POST['offerurl']) && !empty($_POST['offerprice']) )	{
 			if(empty((new postFilter(array('offerurl'=>$_POST['offerurl'])))->checkUrl()) && empty((new postFilter(array('offerprice'=>$_POST['offerprice'])))->checkNum())	)	{

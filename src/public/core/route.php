@@ -6,6 +6,7 @@ class Route
 		// контроллер и действие по умолчанию
 		$controller_name = 'Main';
              $action_name = 'index';
+			 $action_param='';
              $routes = explode('/', $_SERVER['REQUEST_URI']);
 
              // получаем имя контроллера

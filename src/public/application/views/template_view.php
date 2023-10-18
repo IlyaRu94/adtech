@@ -1,4 +1,6 @@
-<?if (empty($_SESSION['json'])&&empty($_POST['json'])){?>
+<?php
+$jsonsess=(!empty($_SESSION['json'])?$_SESSION['json']:'');
+if (empty($jsonsess)&&empty($_POST['json'])){ ?>
 <!DOCTYPE html> 
 <html lang="ru"> 
 <head> 
@@ -12,7 +14,7 @@
     <body class="page">
         <header class="page__header">
             <img class="logo" src="/images/SF-AdTech3.png" style="width: 300px; height: 30px;">
-            <?} $menu='<nav class="nav">
+            <?php } $menu='<nav class="nav">
                 <ul class="nav__ul">
                         <li class="nav__item"><a href="/">Главная</a></li>
                         <li class="nav__item"><a href="/contacts">Контакты</a></li>';
@@ -28,14 +30,14 @@
                         }   
                 $menu.='</ul>
             </nav>';?>
-            <?if (empty($_SESSION['json'])&&empty($_POST['json'])){
+            <?php if (empty($jsonsess)&&empty($_POST['json'])){
                 echo $menu; 
             ?>
         </header>
         <main class="page__main">
-            <?}?>
+            <?php } ?>
             <?php include 'application/views/'.$content_view; ?>
-            <?if (empty($_SESSION['json'])&&empty($_POST['json'])){?>
+            <?php if (empty($jsonsess)&&empty($_POST['json'])){ ?>
         </main>
         <footer class="page__footer">
             <div class="footer__item">Приложение SF-AdTech</div>
@@ -43,4 +45,4 @@
         </footer>
     </body> 
 </html>
-<?}?>
+<?php } ?>

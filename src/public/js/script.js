@@ -12,11 +12,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!response.ok) {
                 throw new Error(`Ошибка по адресу ${url}, статус ошибки ${response.status}`);
             }
-            return await response.json();
+            return await response.text();
         };
 
         if(e.target.tagName=='A'){
             action=e.target.href;
+            if(action.indexOf("/admin/logout")>= 0){window.location('/')}
             document.querySelector("title").text=e.target.text;
             window.history.pushState({},'',action);
             e.preventDefault();
@@ -48,14 +49,26 @@ function sendtoform(ajaxSend,form,attr,param){
         formData.set(attr,param);
     }
     formData.set('json','json');
-    console.log(form);
     ajaxSend(formData)
         .then((response) => {
-            response.block.forEach(function(block,key) {
-                document.querySelector(block).outerHTML=response.html[key];
-            });
+            isJSON(response);
         })
-        .catch((err) => document.location.href = '/')
+        //.catch((err) => document.location.href = '/')
+        .catch((err) => console.log(err))
+}
+function isJSON(str) {
+    try {
+        let resp=JSON.parse(str);
+        //console.log(JSON.parse(str));//убрать
+            resp.block.forEach(function(blockhtml,key) {
+                document.querySelector(blockhtml).outerHTML=resp.html[key];
+            });
+        return (JSON.parse(str) && !!str);
+    } catch (e) {
+        //console.log(str)//убрать
+        document.querySelector('.section').outerHTML=str;
+        return false;
+    }
 }
 
 
